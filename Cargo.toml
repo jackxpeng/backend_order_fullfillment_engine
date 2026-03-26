@@ -2,6 +2,7 @@
 name = "backend_order_fullfillment_engine"
 version = "0.1.0"
 edition = "2024"
+default-run="backend_order_fullfillment_engine"
 
 [dependencies]
 sqlx = { version = "0.7", features = ["postgres", "runtime-tokio-native-tls", "chrono"] }
