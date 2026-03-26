@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: fsm_postgres
+    environment:
+      POSTGRES_USER: fsm_user
+      POSTGRES_PASSWORD: fsm_password
+      POSTGRES_DB: fulfillment_db
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
