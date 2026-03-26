@@ -48,9 +48,29 @@ async fn main() -> Result<(), sqlx::Error> {
                     item.item_id, item.item_name, item.order_id
                 );
                 
-                // TODO: Ticket 4 (Update Parent Order)
-                // TODO: Ticket 5 (Simulate Work)
+                // Ticket 4 (Update Parent Order)
+                println!(
+                    "📦 CLAIMED: Item #{} ({}) for Order #{}",
+                    item.item_id, item.item_name, item.order_id
+                );
                 
+                // --- TICKET 4: The Parent Trigger ---
+                let order_update = sqlx::query!(
+                    "UPDATE orders SET state = 'PROCESSING' WHERE order_id = $1 AND state = 'PENDING'",
+                    item.order_id
+                )
+                .execute(&pool)
+                .await?;
+
+                // If rows_affected is 1, this worker was the first one to touch the order!
+                if order_update.rows_affected() > 0 {
+                    println!("🚀 ORDER #{} transitioned to PROCESSING", item.order_id);
+                }
+                // ------------------------------------
+                
+                // Ticket 5 (Simulate Work)
+                sleep(Duration::from_millis(500)).await;
+
                 // For now, just sleep a tiny bit so we can watch it run
                 sleep(Duration::from_millis(500)).await;
             }
