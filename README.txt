@@ -14,7 +14,7 @@ The Worker (main.rs): The primary engine. It claims PENDING line items using Pos
 
 Zombie Sweeper (bin/zombie_sweeper.rs): A cleanup microservice that detects "zombie" items (stuck in PICKING for >5 minutes due to worker crashes) and resets them to PENDING.
 
-Aggregation Sweeper (bin/aggregation_sweeper.rs): A reactive microservice that monitors PROCESSING orders and finalizes them once all child items reach a terminal state.
+Aggregation Sweeper (bin/aggregation_sweeper.rs): A background polling microservice that periodically checks for PROCESSING orders and finalizes them once all child items reach a terminal state.
 
 Database Seeder (bin/db_seeder.rs): A utility to inject mock order data for testing.
 
